@@ -3,8 +3,11 @@ import { removeCar } from "../store";
 
 function CarList() {
   const dispatch = useDispatch();
-  const cars = useSelector((state) => {
-    return state.cars.data;
+
+  const cars = useSelector(({ cars: { data, searchTerm } }) => {
+    return data.filter((car) => {
+      return car.name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
   });
 
   const handleCarDelete = (car) => {
@@ -12,6 +15,7 @@ function CarList() {
   };
 
   const renderedCars = cars.map((car) => {
+    //decide if this car should be bold
     return (
       <div key={cars.id} className="panel">
         <p>
